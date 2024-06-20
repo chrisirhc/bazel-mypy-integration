@@ -213,7 +213,8 @@ def _mypy_rule_impl(ctx, is_aspect = False):
 
 def _mypy_aspect_impl(_, ctx):
     if (ctx.rule.kind not in ["py_binary", "py_library", "py_test", "mypy_test"] or
-        ctx.label.workspace_root.startswith("external")):
+        ctx.label.workspace_root.startswith("external") or
+        "skip-typecheck" in ctx.rule.attr.tags):
         return []
 
     providers = _mypy_rule_impl(
